@@ -6,67 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
+import { internalProjects, externalProjects } from "@/lib/data"
 
 export default function ProjectsPage() {
   const { t } = useLanguage()
-
-  const internalProjects = [
-    {
-      id: "openapi-framework",
-      status: "active",
-      language: "TypeScript",
-      repo: "https://github.com/example/openapi-framework",
-      maintainers: ["Alex Chen", "Michael Zhang"],
-      stars: 245,
-    },
-    {
-      id: "data-pipeline-toolkit",
-      status: "active",
-      language: "Python",
-      repo: "https://github.com/example/data-pipeline-toolkit",
-      maintainers: ["Sarah Johnson", "David Wang"],
-      stars: 187,
-    },
-    {
-      id: "ui-component-library",
-      status: "maintenance",
-      language: "TypeScript",
-      repo: "https://github.com/example/ui-components",
-      maintainers: ["Emma Liu"],
-      stars: 312,
-    },
-    {
-      id: "config-manager",
-      status: "incubating",
-      language: "Go",
-      repo: "https://github.com/example/config-manager",
-      maintainers: ["Michael Zhang"],
-      stars: 56,
-    },
-  ]
-
-  const externalProjects = [
-    {
-      id: "kubernetes",
-      repo: "https://github.com/kubernetes/kubernetes",
-      contributors: ["Alex Chen", "David Wang"],
-    },
-    {
-      id: "tensorflow",
-      repo: "https://github.com/tensorflow/tensorflow",
-      contributors: ["Sarah Johnson"],
-    },
-    {
-      id: "react",
-      repo: "https://github.com/facebook/react",
-      contributors: ["Emma Liu"],
-    },
-    {
-      id: "kafka",
-      repo: "https://github.com/apache/kafka",
-      contributors: ["Michael Zhang"],
-    },
-  ]
 
   const getStatusColor = (status: string) => {
     switch (status) {
