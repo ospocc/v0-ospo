@@ -3,7 +3,7 @@
 import { useLanguage } from "@/components/language-provider"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Target, Eye, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {
@@ -64,38 +64,67 @@ export default function Home() {
       </section>
 
       <div className="grid gap-8 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("home.vision.title")}</CardTitle>
+        {/* First Column: Vision and Mission */}
+        <div className="space-y-6">
+          <Card className="h-auto">
+            <CardHeader className="flex flex-row items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Eye className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle>{t("home.vision.title")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground leading-relaxed">{t("home.vision.content")}</p>
+            </CardContent>
+          </Card>
+          <Card className="h-auto">
+            <CardHeader className="flex flex-row items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Target className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle>{t("home.mission.title")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground leading-relaxed">{t("home.mission.content")}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Second Column: Responsibilities */}
+        <Card className="h-full">
+          <CardHeader className="flex flex-row items-center gap-3">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <CheckCircle className="h-5 w-5 text-primary" />
+            </div>
+            <CardTitle>{t("home.responsibilities.title")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>{t("home.vision.content")}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("home.mission.title")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>{t("home.mission.content")}</p>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                <span>{t("home.responsibilities.item1")}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                <span>{t("home.responsibilities.item2")}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                <span>{t("home.responsibilities.item3")}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                <span>{t("home.responsibilities.item4")}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                <span>{t("home.responsibilities.item5")}</span>
+              </li>
+            </ul>
           </CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("home.responsibilities.title")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>{t("home.responsibilities.item1")}</li>
-            <li>{t("home.responsibilities.item2")}</li>
-            <li>{t("home.responsibilities.item3")}</li>
-            <li>{t("home.responsibilities.item4")}</li>
-            <li>{t("home.responsibilities.item5")}</li>
-          </ul>
-        </CardContent>
-      </Card>
+      {/* End of layout refactor */}
 
       <section>
         <h2 className="text-2xl font-bold mb-6">{t("home.team.title")}</h2>
@@ -104,7 +133,7 @@ export default function Home() {
             <Card key={member.email} className="overflow-hidden">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <Avatar className="h-20 w-20 mb-4">
-                  <AvatarImage src={member.avatar} alt={member.name} />
+                  <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
                   <AvatarFallback>{member.name.substring(0, 2)}</AvatarFallback>
                 </Avatar>
                 <h3 className="font-medium">{member.name}</h3>
