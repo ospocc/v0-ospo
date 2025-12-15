@@ -57,137 +57,153 @@ export default function Home() {
   ]
 
   return (
-    <div className="container py-8 space-y-12">
-      <section className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">{t("home.title")}</h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t("home.subtitle")}</p>
-      </section>
-
-      <div className="grid gap-8 md:grid-cols-2">
-        {/* First Column: Vision and Mission */}
-        <div className="space-y-6">
-          <Card className="h-auto">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Eye className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle>{t("home.vision.title")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground leading-relaxed">{t("home.vision.content")}</p>
-            </CardContent>
-          </Card>
-          <Card className="h-auto">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Target className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle>{t("home.mission.title")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground leading-relaxed">{t("home.mission.content")}</p>
-            </CardContent>
-          </Card>
+    <div className="space-y-0">
+      {/* Hero section with full-width background image */}
+      <section className="relative w-full h-[400px] flex items-center justify-center overflow-hidden -mx-[50vw] left-[50%] right-[50%]">
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"
+          style={{
+            backgroundImage: "url('/abstract-technology-network-connection.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40" />
         </div>
+        <div className="relative z-10 text-center space-y-4 px-4">
+          <h1 className="text-5xl font-bold tracking-tight text-white">{t("home.title")}</h1>
+          <p className="text-xl text-white/90 max-w-3xl mx-auto">{t("home.subtitle")}</p>
+        </div>
+      </section>
+      {/* End hero section */}
 
-        {/* Second Column: Responsibilities */}
-        <Card className="h-full">
-          <CardHeader className="flex flex-row items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <CheckCircle className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle>{t("home.responsibilities.title")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                <span>{t("home.responsibilities.item1")}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                <span>{t("home.responsibilities.item2")}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                <span>{t("home.responsibilities.item3")}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                <span>{t("home.responsibilities.item4")}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                <span>{t("home.responsibilities.item5")}</span>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
-      {/* End of layout refactor */}
-
-      <section>
-        <h2 className="text-2xl font-bold mb-6">{t("home.team.title")}</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {teamMembers.map((member) => (
-            <Card key={member.email} className="overflow-hidden">
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <Avatar className="h-20 w-20 mb-4">
-                  <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
-                  <AvatarFallback>{member.name.substring(0, 2)}</AvatarFallback>
-                </Avatar>
-                <h3 className="font-medium">{member.name}</h3>
-                <p className="text-sm text-muted-foreground mb-2">{member.role}</p>
-                <p className="text-xs">{member.email}</p>
+      <div className="container py-12 space-y-12">
+        <div className="grid gap-8 md:grid-cols-2">
+          {/* First Column: Vision and Mission */}
+          <div className="space-y-6">
+            <Card className="h-auto">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Eye className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle>{t("home.vision.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed">{t("home.vision.content")}</p>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      </section>
+            <Card className="h-auto">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Target className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle>{t("home.mission.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed">{t("home.mission.content")}</p>
+              </CardContent>
+            </Card>
+          </div>
 
-      <section>
-        <h2 className="text-2xl font-bold mb-6">{t("home.links.title")}</h2>
-        <div className="grid gap-8 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("home.links.internal")}</CardTitle>
+          {/* Second Column: Responsibilities */}
+          <Card className="h-full">
+            <CardHeader className="flex flex-row items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <CheckCircle className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle>{t("home.responsibilities.title")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2">
-                {internalLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link href={link.url} className="flex items-center text-primary hover:underline">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("home.links.external")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {externalLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.url}
-                      className="flex items-center text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                      <ExternalLink className="ml-1 h-3 w-3" />
-                    </Link>
-                  </li>
-                ))}
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                  <span>{t("home.responsibilities.item1")}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                  <span>{t("home.responsibilities.item2")}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                  <span>{t("home.responsibilities.item3")}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                  <span>{t("home.responsibilities.item4")}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                  <span>{t("home.responsibilities.item5")}</span>
+                </li>
               </ul>
             </CardContent>
           </Card>
         </div>
-      </section>
+        {/* End of layout refactor */}
+
+        <section>
+          <h2 className="text-2xl font-bold mb-6">{t("home.team.title")}</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {teamMembers.map((member) => (
+              <Card key={member.email} className="overflow-hidden">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                  <Avatar className="h-20 w-20 mb-4">
+                    <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
+                    <AvatarFallback>{member.name.substring(0, 2)}</AvatarFallback>
+                  </Avatar>
+                  <h3 className="font-medium">{member.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">{member.role}</p>
+                  <p className="text-xs">{member.email}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold mb-6">{t("home.links.title")}</h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("home.links.internal")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {internalLinks.map((link) => (
+                    <li key={link.name}>
+                      <Link href={link.url} className="flex items-center text-primary hover:underline">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("home.links.external")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {externalLinks.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.url}
+                        className="flex items-center text-primary hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.name}
+                        <ExternalLink className="ml-1 h-3 w-3" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }

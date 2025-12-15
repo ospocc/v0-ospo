@@ -1,16 +1,19 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useState, useEffect } from "react"
 
 type Language = "en" | "zh"
 
-type LanguageContextType = {
+type TranslationKey = string
+
+interface LanguageContextType {
   language: Language
-  setLanguage: (language: Language) => void
-  t: (key: string) => string
+  setLanguage: (lang: Language) => void
+  t: (key: TranslationKey) => string
 }
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 const translations = {
   en: {
@@ -190,6 +193,7 @@ const translations = {
     "compliance.tab.metrics": "Metrics",
     "compliance.tab.knowledge": "Knowledge Base",
     "compliance.tab.tools": "SCA Tools",
+    "compliance.tab.supplyChain": "Supply Chain",
     "compliance.policy.overview": "Policy Overview",
     "compliance.policy.license.title": "License Compliance",
     "compliance.policy.license.desc":
@@ -238,6 +242,28 @@ const translations = {
     "compliance.tools.sbom": "SBOM Auto-generation",
     "compliance.tools.configured": "Configured",
     "compliance.tools.inProgress": "In Progress",
+
+    // Supply Chain
+    "compliance.supplyChain.title": "Open Source Software Supply Chain",
+    "compliance.supplyChain.desc": "Health assessment and risk analysis of open source software supply chain",
+    "compliance.supplyChain.overallHealth": "Overall Health",
+    "compliance.supplyChain.security": "Security",
+    "compliance.supplyChain.securityDesc": "Vulnerability detection and security update status",
+    "compliance.supplyChain.maintenance": "Maintenance",
+    "compliance.supplyChain.maintenanceDesc": "Project activity and maintenance frequency",
+    "compliance.supplyChain.community": "Community",
+    "compliance.supplyChain.communityDesc": "Community activity and contributor diversity",
+    "compliance.supplyChain.license": "License Compliance",
+    "compliance.supplyChain.licenseDesc": "License compliance and risk assessment",
+    "compliance.supplyChain.quality": "Code Quality",
+    "compliance.supplyChain.qualityDesc": "Code quality metrics and test coverage",
+    "compliance.supplyChain.riskTitle": "Risk Distribution",
+    "compliance.supplyChain.highRisk": "High Risk Components",
+    "compliance.supplyChain.highRiskDesc": "Critical vulnerabilities or license issues",
+    "compliance.supplyChain.mediumRisk": "Medium Risk Components",
+    "compliance.supplyChain.mediumRiskDesc": "Moderate risks requiring attention",
+    "compliance.supplyChain.lowRisk": "Low Risk Components",
+    "compliance.supplyChain.lowRiskDesc": "Healthy components with no significant issues",
 
     // Footer
     "footer.copyright": "© 2025 OSPO. All rights reserved.",
@@ -415,6 +441,7 @@ const translations = {
     "compliance.tab.metrics": "指标",
     "compliance.tab.knowledge": "知识库",
     "compliance.tab.tools": "SCA工具",
+    "compliance.tab.supplyChain": "供应链",
     "compliance.policy.overview": "政策概览",
     "compliance.policy.license.title": "许可证合规",
     "compliance.policy.license.desc":
@@ -463,6 +490,28 @@ const translations = {
     "compliance.tools.configured": "已配置",
     "compliance.tools.inProgress": "进行中",
 
+    // Supply Chain
+    "compliance.supplyChain.title": "开源软件供应链",
+    "compliance.supplyChain.desc": "开源软件供应链健康度评估和风险分析",
+    "compliance.supplyChain.overallHealth": "整体健康度",
+    "compliance.supplyChain.security": "安全性",
+    "compliance.supplyChain.securityDesc": "漏洞检测和安全更新状态",
+    "compliance.supplyChain.maintenance": "维护性",
+    "compliance.supplyChain.maintenanceDesc": "项目活跃度和维护频率",
+    "compliance.supplyChain.community": "社区活跃度",
+    "compliance.supplyChain.communityDesc": "社区活跃度和贡献者多样性",
+    "compliance.supplyChain.license": "许可证合规",
+    "compliance.supplyChain.licenseDesc": "许可证合规性和风险评估",
+    "compliance.supplyChain.quality": "代码质量",
+    "compliance.supplyChain.qualityDesc": "代码质量指标和测试覆盖率",
+    "compliance.supplyChain.riskTitle": "风险分布",
+    "compliance.supplyChain.highRisk": "高风险组件",
+    "compliance.supplyChain.highRiskDesc": "存在严重漏洞或许可证问题",
+    "compliance.supplyChain.mediumRisk": "中风险组件",
+    "compliance.supplyChain.mediumRiskDesc": "存在需要关注的中等风险",
+    "compliance.supplyChain.lowRisk": "低风险组件",
+    "compliance.supplyChain.lowRiskDesc": "健康组件,无重大问题",
+
     // Footer
     "footer.copyright": "© 2025 OSPO. 保留所有权利。",
     "footer.contact": "联系我们",
@@ -470,10 +519,8 @@ const translations = {
   },
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en")
+  const [language, setLanguage] = useState<Language>("zh")
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") as Language
@@ -492,7 +539,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("language", newLanguage)
   }
 
-  const t = (key: string): string => {
+  const t = (key: TranslationKey): string => {
     return translations[language][key as keyof (typeof translations)[typeof language]] || key
   }
 

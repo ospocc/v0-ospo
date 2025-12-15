@@ -3,6 +3,7 @@
 import { useLanguage } from "@/components/language-provider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { Hash } from "lucide-react"
 
 export default function CapabilitiesPage() {
   const { t } = useLanguage()
@@ -77,9 +78,30 @@ export default function CapabilitiesPage() {
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t("capabilities.subtitle")}</p>
       </div>
 
+      <Card className="bg-muted/50">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Hash className="h-5 w-5 text-muted-foreground" />
+            <span className="font-semibold">Quick Navigation</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+            {capabilities.map((capability) => (
+              <a
+                key={capability.id}
+                href={`#${capability.id}`}
+                className="text-sm text-primary hover:underline p-2 rounded hover:bg-background transition-colors"
+              >
+                {capability.title}
+              </a>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+      {/* End navigation */}
+
       <div className="grid gap-6">
         {capabilities.map((capability) => (
-          <Card key={capability.id}>
+          <Card key={capability.id} id={capability.id}>
             <CardHeader>
               <div className="flex justify-between items-center">
                 <div>

@@ -16,11 +16,12 @@ import {
   ExternalLink,
   Mail,
   Phone,
+  Shield,
 } from "lucide-react"
 
 export default function CompliancePage() {
   const { t } = useLanguage()
-  const [activeTab, setActiveTab] = useState("policy")
+  const [activeTab, setActiveTab] = useState("metrics")
 
   const policies = [
     {
@@ -123,6 +124,17 @@ export default function CompliancePage() {
     },
   ]
 
+  const supplyChainHealth = {
+    overall: 82,
+    dimensions: [
+      { name: t("compliance.supplyChain.security"), score: 85, desc: t("compliance.supplyChain.securityDesc") },
+      { name: t("compliance.supplyChain.maintenance"), score: 78, desc: t("compliance.supplyChain.maintenanceDesc") },
+      { name: t("compliance.supplyChain.community"), score: 88, desc: t("compliance.supplyChain.communityDesc") },
+      { name: t("compliance.supplyChain.license"), score: 92, desc: t("compliance.supplyChain.licenseDesc") },
+      { name: t("compliance.supplyChain.quality"), score: 76, desc: t("compliance.supplyChain.qualityDesc") },
+    ],
+  }
+
   return (
     <div className="container py-10">
       <div className="mb-8">
@@ -130,15 +142,30 @@ export default function CompliancePage() {
         <p className="text-muted-foreground mt-2">{t("compliance.subtitle")}</p>
       </div>
 
+      <div className="grid gap-4 md:grid-cols-4 mb-8">
+        {metrics.overview.map((metric, index) => (
+          <Card key={index}>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold">{metric.value}</div>
+              <p className="text-sm text-muted-foreground">{metric.label}</p>
+              <Badge variant={metric.change.startsWith("+") ? "default" : "secondary"} className="mt-2">
+                {metric.change}
+              </Badge>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      {/* End metrics overview */}
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="policy" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("compliance.tab.policy")}</span>
-          </TabsTrigger>
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="metrics" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             <span className="hidden sm:inline">{t("compliance.tab.metrics")}</span>
+          </TabsTrigger>
+          <TabsTrigger value="policy" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("compliance.tab.policy")}</span>
           </TabsTrigger>
           <TabsTrigger value="knowledge" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
@@ -148,7 +175,41 @@ export default function CompliancePage() {
             <Wrench className="h-4 w-4" />
             <span className="hidden sm:inline">{t("compliance.tab.tools")}</span>
           </TabsTrigger>
+          <TabsTrigger value="supplychain" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("compliance.tab.supplyChain")}</span>
+          </TabsTrigger>
         </TabsList>
+
+        {/* Metrics Tab */}
+        <TabsContent value="metrics" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("compliance.metrics.distribution")}</CardTitle>
+              <CardDescription>{t("compliance.metrics.distributionDesc")}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {metrics.licenseDistribution.map((license, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{license.name}</span>
+                      {license.status === "allowed" ? (
+                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                      )}
+                    </div>
+                    <span className="text-sm text-muted-foreground">
+                      {license.count} ({license.percentage}%)
+                    </span>
+                  </div>
+                  <Progress value={license.percentage} className="h-2" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* Policy Tab */}
         <TabsContent value="policy" className="space-y-6">
@@ -192,50 +253,6 @@ export default function CompliancePage() {
                   </Card>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Metrics Tab */}
-        <TabsContent value="metrics" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-4">
-            {metrics.overview.map((metric, index) => (
-              <Card key={index}>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">{metric.value}</div>
-                  <p className="text-sm text-muted-foreground">{metric.label}</p>
-                  <Badge variant={metric.change.startsWith("+") ? "default" : "secondary"} className="mt-2">
-                    {metric.change}
-                  </Badge>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("compliance.metrics.distribution")}</CardTitle>
-              <CardDescription>{t("compliance.metrics.distributionDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {metrics.licenseDistribution.map((license, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{license.name}</span>
-                      {license.status === "allowed" ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                      )}
-                    </div>
-                    <span className="text-sm text-muted-foreground">
-                      {license.count} ({license.percentage}%)
-                    </span>
-                  </div>
-                  <Progress value={license.percentage} className="h-2" />
-                </div>
-              ))}
             </CardContent>
           </Card>
         </TabsContent>
@@ -334,6 +351,103 @@ export default function CompliancePage() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Supply Chain Tab */}
+        <TabsContent value="supplychain" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("compliance.supplyChain.title")}</CardTitle>
+              <CardDescription>{t("compliance.supplyChain.desc")}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-center">
+                <div className="relative w-48 h-48">
+                  <svg className="w-full h-full transform -rotate-90">
+                    <circle
+                      cx="96"
+                      cy="96"
+                      r="80"
+                      stroke="currentColor"
+                      strokeWidth="12"
+                      fill="none"
+                      className="text-muted"
+                    />
+                    <circle
+                      cx="96"
+                      cy="96"
+                      r="80"
+                      stroke="currentColor"
+                      strokeWidth="12"
+                      fill="none"
+                      strokeDasharray={`${(supplyChainHealth.overall / 100) * 502.65} 502.65`}
+                      className="text-primary"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center flex-col">
+                    <div className="text-4xl font-bold">{supplyChainHealth.overall}</div>
+                    <div className="text-sm text-muted-foreground">{t("compliance.supplyChain.overallHealth")}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4">
+                {supplyChainHealth.dimensions.map((dimension, index) => (
+                  <div key={index} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium">{dimension.name}</h4>
+                        <p className="text-sm text-muted-foreground">{dimension.desc}</p>
+                      </div>
+                      <div className="text-2xl font-bold">{dimension.score}</div>
+                    </div>
+                    <Progress value={dimension.score} className="h-2" />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("compliance.supplyChain.riskTitle")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900">
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-500" />
+                    <div>
+                      <div className="font-medium">{t("compliance.supplyChain.highRisk")}</div>
+                      <div className="text-sm text-muted-foreground">{t("compliance.supplyChain.highRiskDesc")}</div>
+                    </div>
+                  </div>
+                  <Badge variant="destructive">3</Badge>
+                </div>
+                <div className="flex items-center justify-between p-4 rounded-lg border border-yellow-200 bg-yellow-50 dark:bg-yellow-950/20 dark:border-yellow-900">
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                    <div>
+                      <div className="font-medium">{t("compliance.supplyChain.mediumRisk")}</div>
+                      <div className="text-sm text-muted-foreground">{t("compliance.supplyChain.mediumRiskDesc")}</div>
+                    </div>
+                  </div>
+                  <Badge className="bg-yellow-500">12</Badge>
+                </div>
+                <div className="flex items-center justify-between p-4 rounded-lg border">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    <div>
+                      <div className="font-medium">{t("compliance.supplyChain.lowRisk")}</div>
+                      <div className="text-sm text-muted-foreground">{t("compliance.supplyChain.lowRiskDesc")}</div>
+                    </div>
+                  </div>
+                  <Badge className="bg-green-500">1232</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        {/* End supply chain tab */}
       </Tabs>
     </div>
   )
